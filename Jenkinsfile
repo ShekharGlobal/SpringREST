@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'shekjava@gmail.com/spring-rest-app'  // Use your Docker Hub username 'shekjava'
+        DOCKER_IMAGE = '110044/spring-rest-app'  // Use your Docker Hub username 'shekjava'
         DOCKER_TAG = '1.0'  // Set a version or tag
     }
     stages {
