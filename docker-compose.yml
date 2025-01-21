@@ -9,9 +9,11 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Expose MySQL on port 3306
     networks:
       - mynetwork
+    volumes:
+      - mysql-data:/var/lib/mysql  # Persistent data storage for MySQL
 
   app:
     build:
@@ -21,7 +23,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "8082:8082"
+      - "8082:8082"  # Expose Spring Boot app on port 8082
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/coforge
       SPRING_DATASOURCE_USERNAME: root
@@ -31,4 +33,7 @@ services:
 
 networks:
   mynetwork:
-    driver: bridge
+    driver: bridge  # Ensure the app and MySQL can communicate on this network
+
+volumes:
+  mysql-data:  # This volume is used for MySQL data persistence
