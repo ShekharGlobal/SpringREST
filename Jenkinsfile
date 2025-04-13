@@ -3,6 +3,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = '110044/spring-rest-app' // Your Docker Hub repository
         DOCKER_TAG = '1.0'  // Image version/tag
+        SONARQUBE_SERVER = 'MySonarQubeServer'  // The name of your SonarQube server in Jenkins configuration
     }
     stages {
         stage('Checkout') {
@@ -15,6 +16,16 @@ pipeline {
             steps {
                 // Build the Maven project
                 bat 'mvn clean install'
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run the SonarQube analysis using the SonarQube Maven plugin
+                    withSonarQubeEnv(SONARQUBE_SERVER) {
+                        bat 'mvn sonar:sonar -Dsonar.projectKey=spring-rest-app'
+                    }
+                }
             }
         }
         stage('Test') {
